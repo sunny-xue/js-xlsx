@@ -112,7 +112,7 @@ var HTML_ = (function() {
 	};
 })();
 
-function parse_dom_table(table/*:HTMLElement*/, _opts/*:?any*/)/*:Worksheet*/ {
+function parse_dom_table(table/*:HTMLElement*/, _opts/*:?any*/,title)/*:Worksheet*/ {
 	var opts = _opts || {};
 	if(DENSE != null) opts.dense = DENSE;
 	var ws/*:Worksheet*/ = opts.dense ? ([]/*:any*/) : ({}/*:any*/);
@@ -122,6 +122,11 @@ function parse_dom_table(table/*:HTMLElement*/, _opts/*:?any*/)/*:Worksheet*/ {
 	var merges/*:Array<Range>*/ = [], midx = 0;
 	var rowinfo/*:Array<RowInfo>*/ = [];
 	var _R = 0, R = 0, _C, C, RS, CS;
+	var _title = title || ""; 
+	if(title != ""){
+		var title_o = { t: 's', v: _title};
+		ws[encode_cell({ c: 0, r: 0 })] = title_o;
+	}
 	for(; _R < rows.length && R < sheetRows; ++_R) {
 		var row/*:HTMLTableRowElement*/ = rows[_R];
 		if (is_dom_element_hidden(row)) {
